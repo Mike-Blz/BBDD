@@ -173,7 +173,7 @@ public class DBManager {
     public static ResultSet getCliente(int id) {
         try {
             // Realizamos la consulta SQL
-            Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            PreparedStatement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             String sql = DB_CLI_SELECT + " WHERE " + DB_CLI_ID + "='" + id + "';";
             //System.out.println(sql);
             ResultSet rs = stmt.executeQuery(sql);
