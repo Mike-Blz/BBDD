@@ -1,5 +1,6 @@
 
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -73,9 +74,9 @@ public class DBManager {
     }
 
     /**
-     * Comprueba la conexión y muestra su estado por pantalla
+     * Comprueba la conexi�n y muestra su estado por pantalla
      *
-     * @return true si la conexión existe y es válida, false en caso contrario
+     * @return true si la conexi�n existe y es válida, false en caso contrario
      */
     public static boolean isConnected() {
         // Comprobamos estado de la conexión
@@ -121,7 +122,7 @@ public class DBManager {
      */
     public static ResultSet getTablaClientes(int resultSetType, int resultSetConcurrency) {
         try {
-            Statement stmt = conn.createStatement(resultSetType, resultSetConcurrency);
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM CLIENTES");
             ResultSet rs = stmt.executeQuery(DB_CLI_SELECT);
             //stmt.close();
             return rs;
