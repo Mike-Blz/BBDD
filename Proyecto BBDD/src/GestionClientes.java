@@ -23,7 +23,7 @@ public class GestionClientes {
 
     public static boolean menuPrincipal() {
         System.out.println("");
-        System.out.println("MENU  PRINCIPAL");
+        System.out.println("MENU PRINCIPAL");
         System.out.println("1. Listar clientes");
         System.out.println("2. Nuevo cliente");
         System.out.println("3. Modificar cliente");
