@@ -393,6 +393,93 @@ public class DBManager {
  			e.printStackTrace();
  		}
     }
+    ///////////////////////////////////////////
+    //Insertar nuevo cliente ficheros
+    //////////////////////////////////////////
     
+    public static void nuevoClienteFichero(String ruta) {
+    	File f = new File(ruta);
+    	try {
+			Scanner leerFichero=new Scanner(f);
+			
+			leerFichero.nextLine();
+			leerFichero.nextLine();
+			leerFichero.nextLine();
+			
+		
+			while(leerFichero.hasNext()) {
+				
+				String insertar=leerFichero.nextLine();
+				String datosCliente[]=insertar.split(",");
+				insertCliente(datosCliente[0],datosCliente[1]);
+			}
+			
+			leerFichero.close();
+			
+		} catch (FileNotFoundException e) {
+			
+			e.printStackTrace();
+		}
+    }
+    ////////////////////////////////////////////
+    //Modificar datos cliente ficheros
+    ///////////////////////////////////////////
+    
+    public static void modificarClienteFichero(String ruta) {
+    	File f=new File(ruta);
+    	
+    	try {
+			Scanner leerFichero=new Scanner(f);
+			
+			leerFichero.nextLine();
+			leerFichero.nextLine();
+			leerFichero.nextLine();
+			
+			while(leerFichero.hasNext()) {
+				
+				String actualizar=leerFichero.nextLine();
+				String datosCliente[]=actualizar.split(",");
+				updateCliente(Integer.parseInt(datosCliente[0]),datosCliente[1],datosCliente[2]);
+			}
+			
+			leerFichero.close();
+			
+		} catch (FileNotFoundException e) {
+			
+			e.printStackTrace();
+		}
+    	
+    }
+    //////////////////////////////////////////////
+    //Eliminar cliente ficheros
+    /////////////////////////////////////////////
+    
+    public static void eliminarClienteFichero(String ruta) {
+    	File f=new File(ruta);
+    	
+    	try {
+			Scanner leerFichero=new Scanner(f);
+			
+			leerFichero.nextLine();
+			leerFichero.nextLine();
+			
+			while(leerFichero.hasNext()) {
+				
+				String eliminar=leerFichero.nextLine();
+				String datosCliente[]=eliminar.split(",");
+				
+				for(int i=0;i<datosCliente.length;i++) {
+					
+					deleteCliente(Integer.parseInt(datosCliente[i]));
+				}
+			}
+			
+			leerFichero.close();
+			
+		} catch (FileNotFoundException e) {
+			
+			e.printStackTrace();
+		}
+    }
 
 }
