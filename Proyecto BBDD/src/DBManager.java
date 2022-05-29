@@ -13,7 +13,7 @@ import java.sql.ResultSet;
 
 /**
  *
- *Clase con los metodos para la conexion y uso de la base de datos
+ *Clase con los metodos para la conexion y uso de la base de datos 
  * @author Miguel Ángel
  */
 public class DBManager {
@@ -364,6 +364,12 @@ public class DBManager {
     //////////////////////////////////////////
     //Volcar datos a ficheros
     /////////////////////////////////////////
+    /**
+     * Vuelca los datos de las tablas en un fichero
+     *
+     * @param ruta es la ruta donde esta el fichero para volcar datos
+     * 
+     */
     
     public static void volcarDatos(String ruta) {
     	String rutaGeneral ="Ficheros/"+ruta;
@@ -397,6 +403,12 @@ public class DBManager {
     //Insertar nuevo cliente ficheros
     //////////////////////////////////////////
     
+    /**
+     * Crea un nuevo cliente a partir de un fichero
+     *
+     * @param ruta es la ruta donde esta el fichero para crear al cliente
+     * 
+     */
     public static void nuevoClienteFichero(String ruta) {
     	File f = new File(ruta);
     	try {
@@ -424,7 +436,12 @@ public class DBManager {
     ////////////////////////////////////////////
     //Modificar datos cliente ficheros
     ///////////////////////////////////////////
-    
+    /**
+     * Modifica  un cliente a partir de un fichero
+     *
+     * @param ruta es la ruta donde esta el fichero para modificar al cliente
+     * 
+     */
     public static void modificarClienteFichero(String ruta) {
     	File f=new File(ruta);
     	
@@ -453,6 +470,13 @@ public class DBManager {
     //////////////////////////////////////////////
     //Eliminar cliente ficheros
     /////////////////////////////////////////////
+    
+    /**
+     * Elimina un cliente a partir de un fichero
+     *
+     * @param ruta es la ruta donde esta el fichero para eliminar al cliente
+     * 
+     */
     
     public static void eliminarClienteFichero(String ruta) {
     	File f=new File(ruta);
@@ -485,6 +509,15 @@ public class DBManager {
     /////////////////////////////////////////
     //Crear tabla
     /////////////////////////////////////////
+    /**
+     * Crea una nueva tabla de tres columnas
+     *
+     * @param nombre es el nombre de la tabla
+     * @param columna1 es una columna donde esta la clave primaria
+     * @param columna1 es una columna 
+     * @param columna1 es una columna 
+     * 
+     */
     public static void crearTabla(String nombre,String columna1,String columna2,String columna3) {
 		String sentencia="CREATE TABLE "+nombre+"("+columna1+" varchar(50) primary key,"+columna2+" varchar(50),"+columna3+" varchar(50))";
 		try {
@@ -499,6 +532,12 @@ public class DBManager {
     /////////////////////////////////////////
     //Filtrar tabla
     ////////////////////////////////////////
+    /**
+     * Filtra a los clientes a partir de su ciudad
+     *
+     * @param ciudad es el parametro por el cual se filtra a los clientes
+     * 
+     */
     public static void filtrarClientesCiudad(String ciudad) {
     	  try {
   			CallableStatement cStmt = conn.prepareCall("{call filtrarPorCiudad(?)}");
