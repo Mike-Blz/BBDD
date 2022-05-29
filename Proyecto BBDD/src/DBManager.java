@@ -1,9 +1,14 @@
 
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Scanner;
 import java.sql.ResultSet;
 
 /**
@@ -355,6 +360,126 @@ public class DBManager {
             ex.printStackTrace();
             return false;
         }
+    }
+    //////////////////////////////////////////
+    //Volcar datos a ficheros
+    /////////////////////////////////////////
+    
+    public static void volcarDatos(String ruta) {
+    	String rutaGeneral ="Ficheros/"+ruta;
+    	File f = new File(rutaGeneral);
+    	
+    	try {
+    		FileWriter wf = new FileWriter(f);
+    		
+    		wf.write(DB_NAME+"\t"+DB_CLI+"\n");
+    		wf.write(DB_CLI_ID+"\t"+DB_CLI_NOM+"\t\t"+DB_CLI_DIR+"\n");
+    		
+    		ResultSet rs = getTablaClientes(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+    		 
+    		while (rs.next()) {
+                 int id = rs.getInt(DB_CLI_ID);
+                 String n = rs.getString(DB_CLI_NOM);
+                 String d = rs.getString(DB_CLI_DIR);
+                 wf.write(id+"\t"+n+"\t\t"+d+"\n");
+             }
+             wf.close();
+             rs.close();
+             System.out.println("Informacion escrita en el archivo");
+ 			
+ 		} catch (IOException e) {
+ 			e.printStackTrace();
+ 		} catch (SQLException e) {
+ 			e.printStackTrace();
+ 		}
+    }
+    ///////////////////////////////////////////
+    //Insertar nuevo cliente ficheros
+    //////////////////////////////////////////
+    
+    public static void nuevoClienteFichero(String ruta) {
+    	File f = new File(ruta);
+    	try {
+			Scanner leerFichero=new Scanner(f);
+			
+			leerFichero.nextLine();
+			leerFichero.nextLine();
+			leerFichero.nextLine();
+			
+		
+			while(leerFichero.hasNext()) {
+				
+				String insertar=leerFichero.nextLine();
+				String datosCliente[]=insertar.split(",");
+				insertCliente(datosCliente[0],datosCliente[1]);
+			}
+			
+			leerFichero.close();
+			
+		} catch (FileNotFoundException e) {
+			
+			e.printStackTrace();
+		}
+    }
+    ////////////////////////////////////////////
+    //Modificar datos cliente ficheros
+    ///////////////////////////////////////////
+    
+    public static void modificarClienteFichero(String ruta) {
+    	File f=new File(ruta);
+    	
+    	try {
+			Scanner leerFichero=new Scanner(f);
+			
+			leerFichero.nextLine();
+			leerFichero.nextLine();
+			leerFichero.nextLine();
+			
+			while(leerFichero.hasNext()) {
+				
+				String actualizar=leerFichero.nextLine();
+				String datosCliente[]=actualizar.split(",");
+				updateCliente(Integer.parseInt(datosCliente[0]),datosCliente[1],datosCliente[2]);
+			}
+			
+			leerFichero.close();
+			
+		} catch (FileNotFoundException e) {
+			
+			e.printStackTrace();
+		}
+    	
+    }
+    //////////////////////////////////////////////
+    //Eliminar cliente ficheros
+    /////////////////////////////////////////////
+    
+    public static void eliminarClienteFichero(String ruta) {
+    	File f=new File(ruta);
+    	
+    	try {
+			Scanner leerFichero=new Scanner(f);
+			
+			leerFichero.nextLine();
+			leerFichero.nextLine();
+			
+			while(leerFichero.hasNext()) {
+				
+				String eliminar=leerFichero.nextLine();
+				String datosCliente[]=eliminar.split(",");
+				
+				for(int i=0;i<datosCliente.length;i++) {
+					
+					deleteCliente(Integer.parseInt(datosCliente[i]));
+				}
+			}
+			
+			leerFichero.close();
+			
+		} catch (FileNotFoundException e) {
+			
+			e.printStackTrace();
+		}
     }
 
 }
