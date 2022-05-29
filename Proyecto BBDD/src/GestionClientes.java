@@ -3,11 +3,18 @@ import java.util.Scanner;
 
 /**
  *
- * @author lionel
+ * Clase principal donde se ejecutara el programa
+ * 
  * @author Miguel Ángel
  */
 public class GestionClientes {
 
+	/**
+	 *
+	 * Main del programa
+	 * 
+	 * @param args argumentos del main
+	 */
     public static void main(String[] args) {
 
         DBManager.loadDriver();
@@ -21,6 +28,12 @@ public class GestionClientes {
         DBManager.close();
 
     }
+    /**
+	 *
+	 * Menu del programa
+	 * 
+	 * @return false para seguir en el bucle, true para salir
+	 */
 
     public static boolean menuPrincipal() {
         System.out.println("");
@@ -33,7 +46,9 @@ public class GestionClientes {
         System.out.println("6. Añadir cliente por fichero");
         System.out.println("7. Modificar cliente por fichero");
         System.out.println("8. Eliminar cliente por fichero");
-        System.out.println("9. Salir");
+        System.out.println("9. Crear una nueva tabla");
+        System.out.println("10. Filtrar por ciudad(con callabStatement)");
+        System.out.println("11. Salir");
         
         Scanner in = new Scanner(System.in);
             
@@ -64,7 +79,13 @@ public class GestionClientes {
  			case 8:
  				opcionEliminarClienteFichero();
  				return false;
-            case 9:
+ 			case 9:
+ 				opcionCrearTabla();
+ 				return false;
+ 			case 10:
+ 				opcionFiltrarCiudad();
+ 				return false;
+            case 11:
                 return true;
             default:
                 System.out.println("Opción elegida incorrecta");
@@ -72,6 +93,13 @@ public class GestionClientes {
         }
         
     }
+    /**
+	 *
+	 * Pide un numero por teclado
+	 * 
+	 * @param mensaje 
+	 * @return numero
+	 */
     
     public static int pideInt(String mensaje){
         
@@ -87,6 +115,13 @@ public class GestionClientes {
             }
         }
     }
+    /**
+	 *
+	 * Pide una linea por teclado
+	 * 
+	 * @param mensaje
+	 * @return linea
+	 */
     
     public static String pideLinea(String mensaje){
         
@@ -101,12 +136,20 @@ public class GestionClientes {
             }
         }
     }
+    /**
+	 *
+	 * Nos muestra al cliente con el metodo printTablaClientes
+	 */
 
     public static void opcionMostrarClientes() {
         System.out.println("Listado de Clientes:");
         DBManager.printTablaClientes();
     }
 
+    /**
+	 *
+	 * Podemos introducir un nuevo cliente con el metodo insertCliente
+	 */
     public static void opcionNuevoCliente() {
         Scanner in = new Scanner(System.in);
 
@@ -122,6 +165,11 @@ public class GestionClientes {
             System.out.println("Error :(");
         }
     }
+    
+    /**
+	 *
+	 * Nos permite modificar al Cliente
+	 */
 
     public static void opcionModificarCliente() {
         Scanner in = new Scanner(System.in);
@@ -150,6 +198,10 @@ public class GestionClientes {
             System.out.println("Error :(");
         }
     }
+    /**
+	 *
+	 * Nos permite eliminar al Cliente
+	 */
 
     public static void opcionEliminarCliente() {
         Scanner in = new Scanner(System.in);
@@ -171,6 +223,11 @@ public class GestionClientes {
             System.out.println("Error :(");
         }
     }
+    /**
+	 *
+	 * Nos permite volcar los datos de la trabla a un fichero
+	 */
+
     
     public static void opcionVolcarDatos() {
     	Scanner in=new Scanner (System.in);
@@ -178,6 +235,11 @@ public class GestionClientes {
     	String ruta=in.nextLine();
     	DBManager.volcarDatos(ruta);
     }
+    /**
+	 *
+	 * Nos permite añadir a un nuevo cliente a traves de un fichero
+	 */
+
     
     public static void opcionNuevoClienteFichero() {
     	Scanner in=new Scanner (System.in);
@@ -185,17 +247,46 @@ public class GestionClientes {
     	String ruta=in.nextLine();
     	DBManager.nuevoClienteFichero(ruta);
     }
+    /**
+	 *
+	 * Nos permite modificar a un  cliente a traves de un fichero
+	 */
     public static void opcionModificarClienteFichero() {
     	Scanner in=new Scanner (System.in);
     	System.out.println("Introduzca la ruta del fichero para modificar cliente");
     	String ruta=in.nextLine();
     	DBManager.modificarClienteFichero(ruta);
     }
+    /**
+	 *
+	 * Nos permite eliminar a un  cliente a traves de un fichero
+	 */
     public static void opcionEliminarClienteFichero() {
     	Scanner in=new Scanner (System.in);
     	System.out.println("Introduzca la ruta del fichero para eliminar un cliente");
     	String ruta=in.nextLine();
     	DBManager.eliminarClienteFichero(ruta);
+    }
+    /**
+	 *
+	 * Nos permite crear una tabla con tres columnas
+	 */
+    public static void opcionCrearTabla() {
+    	Scanner in=new Scanner (System.in);
+    	String nombreTabla=pideLinea("Introduzca el nombre de la tabla ");
+    	String columna1=pideLinea("Introduzca el nombre de la primera columna  ");
+    	String columna2=pideLinea("Introduzca el nombre de la segunda columna ");
+    	String columna3=pideLinea("Introduzca el nombre de la tercera columna ");
+    	DBManager.crearTabla(nombreTabla, columna1, columna2, columna3);
+    }
+    /**
+	 *
+	 * Nos permite filtrar a los clientes por su ciudad
+	 */
+    public static void opcionFiltrarCiudad() {
+    	Scanner in=new Scanner (System.in);
+    	String ciudad=pideLinea("Introduzca una ciudad para filtrar a los clientes ");
+    	DBManager.filtrarClientesCiudad(ciudad);
     }
     
 }

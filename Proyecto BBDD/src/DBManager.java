@@ -5,15 +5,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Scanner;
 import java.sql.ResultSet;
 
 /**
  *
- * @author lionel
+ *Clase con los metodos para la conexion y uso de la base de datos
  * @author Miguel Ángel
  */
 public class DBManager {
@@ -480,6 +480,42 @@ public class DBManager {
 			
 			e.printStackTrace();
 		}
+    }
+    
+    /////////////////////////////////////////
+    //Crear tabla
+    /////////////////////////////////////////
+    public static void crearTabla(String nombre,String columna1,String columna2,String columna3) {
+		String sentencia="CREATE TABLE "+nombre+"("+columna1+" varchar(50) primary key,"+columna2+" varchar(50),"+columna3+" varchar(50))";
+		try {
+			PreparedStatement stmt=conn.prepareStatement(sentencia);
+			stmt.execute();
+			System.out.println("La nueva tabla se ha creado correctamente");
+		} catch (SQLException e) {
+			System.err.println("Error al crear la nueva tabla");
+		}
+	}
+    
+    /////////////////////////////////////////
+    //Filtrar tabla
+    ////////////////////////////////////////
+    public static void filtrarClientesCiudad(String ciudad) {
+    	  try {
+  			CallableStatement cStmt = conn.prepareCall("{call filtrarPorCiudad(?)}");
+  			cStmt.setString(1,ciudad);
+  			cStmt.execute();
+  			
+  			ResultSet rs = cStmt.getResultSet();  
+  			
+  			while (rs.next()) {  
+  				 int id = rs.getInt(DB_CLI_ID);
+  	             String n = rs.getString(DB_CLI_NOM);
+  	             String d = rs.getString(DB_CLI_DIR);
+  	             System.out.println(id + "\t" + n + "\t" + d);
+            }  
+  		} catch (SQLException e) {
+  			System.err.println("No ha sido posible filtrar clientes");
+  		}  
     }
 
 }
